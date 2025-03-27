@@ -37,3 +37,8 @@ It continues until one string perfectly matches the target input.
    ```bash
    git clone https://github.com/yourusername/string-genetic-algorithm.git
    cd string-genetic-algorithm
+
+## ⚙️ Future features:
+
+- Working menu for options and where to save files
+- User input for both population size and mutation rate
