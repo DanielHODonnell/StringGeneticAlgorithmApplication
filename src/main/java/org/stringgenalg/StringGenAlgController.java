@@ -68,6 +68,7 @@ public class StringGenAlgController {
             final int currentFitness = bestFitness;
             final String currentMatch = bestIndividual;
 
+            // Update display
             javafx.application.Platform.runLater(() -> {
                 getGen.setText(String.valueOf(currentGen));
                 getBestFit.setText(String.valueOf(currentFitness));
