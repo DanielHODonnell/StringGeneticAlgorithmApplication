@@ -30,14 +30,6 @@ It continues until one string perfectly matches the target input.
 - MVC architecture
 - CSV export with `FileWriter`
 
-## 🖱️ How to Run
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/string-genetic-algorithm.git
-   cd string-genetic-algorithm
-
 ## ⚙️ Future features:
 
 - Working menu for options and where to save files
