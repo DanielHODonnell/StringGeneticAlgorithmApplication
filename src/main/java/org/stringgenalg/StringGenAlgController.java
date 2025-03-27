@@ -3,6 +3,7 @@ package org.stringgenalg;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 import java.util.Random;
 
 public class StringGenAlgController {
@@ -58,9 +59,9 @@ public class StringGenAlgController {
             final String currentMatch = bestIndividual;
 
             javafx.application.Platform.runLater(() -> {
-                getGen.setText("Generations: " + currentGen);
-                getBestFit.setText("Best Fitness: " + currentFitness);
-                getMatch.setText("Match: " + currentMatch);
+                getGen.setText(String.valueOf(currentGen));
+                getBestFit.setText(String.valueOf(currentFitness));
+                getMatch.setText(currentMatch);
             });
 
             if (found) break;
@@ -148,8 +149,6 @@ public class StringGenAlgController {
         }
         return sb.toString();
     }
-
-
 
     // Buttons
     @FXML
