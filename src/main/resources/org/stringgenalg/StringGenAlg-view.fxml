@@ -95,6 +95,7 @@
                </children>
             </HBox>
          </children></VBox>
+      <Label fx:id="exportLabel" />
       <HBox prefHeight="35.0" prefWidth="351.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onClickCSV" text="Export to CSV" />

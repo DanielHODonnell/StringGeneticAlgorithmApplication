@@ -29,6 +29,7 @@ public class StringGenAlgController {
     @FXML private Label getGen;
     @FXML private Label getBestFit;
     @FXML private Label getMatch;
+    @FXML private Label exportLabel;
 
     // Method to run algorithm
     private void runGeneticAlgorithm() {
@@ -237,5 +238,6 @@ public class StringGenAlgController {
                 e.printStackTrace();
             }
         }).start();
+        exportLabel.setText("CSV saved to: " + csvFileName);
     }
 }
