@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import java.util.Random;
 
 public class StringGenAlgController {
-    // Define Constants as well as instantiate random module
+    // Define Variables/Constants as well as instantiate random module
     private String target;
     private static final int POPULATION_SIZE = 250;
     private static final double MUTATION_RATE = 0.01;
@@ -20,8 +20,8 @@ public class StringGenAlgController {
     @FXML private Label getBestFit;
     @FXML private Label getMatch;
 
+    // Method to run algorithm
     private void runGeneticAlgorithm() {
-
         String[] population = new String[POPULATION_SIZE];
         for (int i = 0; i < POPULATION_SIZE; i++) {
             population[i] = generateRandomString(target.length());
@@ -79,7 +79,7 @@ public class StringGenAlgController {
             generation++;
 
             try {
-                Thread.sleep(50); // to let the UI breathe
+                Thread.sleep(50); // to let the UI breathe and reduce lag for higher populations
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
