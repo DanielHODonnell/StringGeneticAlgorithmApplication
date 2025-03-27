@@ -4,9 +4,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class StringGenAlgController {
+    private final List<String> csvData = new ArrayList<>();
+    private String csvFileName;
+    private int lastGeneration = 0;
+    private int lastBestFitness = 0;
+    private String lastBestIndividual = "";
     // Define Variables/Constants as well as instantiate random module
     private String target;
     private static final int POPULATION_SIZE = 250;
@@ -79,11 +88,18 @@ public class StringGenAlgController {
             population = newPopulation;
             generation++;
 
+            // Calls method to append current data
+            writeToCSV(currentGen, currentFitness, currentMatch);
+
             try {
                 Thread.sleep(50); // to let the UI breathe and reduce lag for higher populations
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        // Adds final correct individual at end of csv
+        if (found) {
+            writeToCSV(generation, bestFitness, bestIndividual);
         }
     }
 
@@ -150,6 +166,23 @@ public class StringGenAlgController {
         return sb.toString();
     }
 
+    // Writes data into a CSV file
+    private void writeToCSV(int generation, int bestFitness, String bestIndividual) {
+        if (generation == 0) {
+            csvData.clear(); // clear any old runs
+            csvData.add("Generation,Best Fitness,Best Individual");
+        }
+
+        String escapedIndividual = bestIndividual.replace("\"", "\"\"");
+        String line = String.format("%d,%d,\"%s\"", generation, bestFitness, escapedIndividual);
+        csvData.add(line);
+
+        // Also update last-known data for potential future use
+        lastGeneration = generation;
+        lastBestFitness = bestFitness;
+        lastBestIndividual = bestIndividual;
+    }
+
     // Buttons
     @FXML
     protected void onClickStart() {
@@ -163,7 +196,7 @@ public class StringGenAlgController {
         isRunning = true;
 
         getPopSize.setText(String.valueOf(POPULATION_SIZE));
-        getMutRate.setText(String.valueOf(MUTATION_RATE * 100));
+        getMutRate.setText(String.valueOf(MUTATION_RATE * 100 + "%"));
         getGen.setText("0");
         getBestFit.setText("0");
         getMatch.setText(" ");
@@ -172,7 +205,7 @@ public class StringGenAlgController {
     }
 
     @FXML
-    protected  void onClickReset() {
+    protected void onClickReset() {
         isRunning = false;
         inputString.clear();
 
@@ -181,5 +214,28 @@ public class StringGenAlgController {
         getMatch.setText("");
         getPopSize.setText("");
         getMutRate.setText("");
+    }
+
+    @FXML
+    protected void onClickCSV() {
+
+        // If no data, print out this.
+        if (csvData.isEmpty()) {
+            System.out.println("No data to export yet.");
+            return;
+        }
+
+        csvFileName = "genetic_algorithm_" + System.currentTimeMillis() + ".csv";
+
+        new Thread(() -> {
+            try (FileWriter writer = new FileWriter(csvFileName)) {
+                for (String line : csvData) {
+                    writer.write(line + System.lineSeparator());
+                }
+                System.out.println("CSV saved to: " + csvFileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
