@@ -2,13 +2,9 @@ package org.stringgenalg;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,12 +12,11 @@ import java.util.List;
 import java.util.Random;
 
 public class StringGenAlgController {
+    // Define Variables/Constants as well as instantiate random module
+    private static StringGenAlgApplication mainApp;
     private final List<String> csvData = new ArrayList<>();
     private String csvFileName;
-    // Define Variables/Constants as well as instantiate random module
     private String target;
-    public static final int POPULATION_SIZE = 250;
-    public static final double MUTATION_RATE = 0.01;
     private static final Random random = new Random();
     private volatile boolean isRunning = false;
     // Labels
@@ -33,12 +28,15 @@ public class StringGenAlgController {
     @FXML private Label getMatch;
     @FXML private Label exportLabel;
 
-
+    // Allows switching of scenes.
+    public void setMainApp(StringGenAlgApplication mainApp) {
+        StringGenAlgController.mainApp = mainApp;
+    }
 
     // Method to run algorithm
     private void runGeneticAlgorithm() {
-        String[] population = new String[POPULATION_SIZE];
-        for (int i = 0; i < POPULATION_SIZE; i++) {
+        String[] population = new String[StringGenAlgApplication.populationSize];
+        for (int i = 0; i < StringGenAlgApplication.populationSize; i++) {
             population[i] = generateRandomString(target.length());
         }
 
@@ -48,11 +46,11 @@ public class StringGenAlgController {
         int bestFitness = 0;
 
         while (isRunning) {
-            int[] fitness = new int[POPULATION_SIZE];
+            int[] fitness = new int[StringGenAlgApplication.populationSize];
             int maxFitness = 0;
             String currentBest = "";
 
-            for (int i = 0; i < POPULATION_SIZE; i++) {
+            for (int i = 0; i < StringGenAlgApplication.populationSize; i++) {
                 fitness[i] = calculateFitness(population[i]);
                 if (fitness[i] > maxFitness) {
                     maxFitness = fitness[i];
@@ -82,8 +80,8 @@ public class StringGenAlgController {
             if (found) break;
 
             // Generate new population
-            String[] newPopulation = new String[POPULATION_SIZE];
-            for (int i = 0; i < POPULATION_SIZE; i++) {
+            String[] newPopulation = new String[StringGenAlgApplication.populationSize];
+            for (int i = 0; i < StringGenAlgApplication.populationSize; i++) {
                 String parent1 = selectParent(population, fitness);
                 String parent2 = selectParent(population, fitness);
                 String child = crossover(parent1, parent2);
@@ -165,7 +163,7 @@ public class StringGenAlgController {
     private static String mutate(String individual) {
         StringBuilder sb = new StringBuilder(individual);
         for (int i = 0; i < individual.length(); i++) {
-            if (random.nextDouble() < MUTATION_RATE) {
+            if (random.nextDouble() < StringGenAlgApplication.mutationRate) {
                 sb.setCharAt(i, (char) (32 + random.nextInt(95)));
             }
         }
@@ -198,8 +196,8 @@ public class StringGenAlgController {
 
         isRunning = true;
 
-        getPopSize.setText(String.valueOf(POPULATION_SIZE));
-        getMutRate.setText(MUTATION_RATE * 100 + "%");
+        getPopSize.setText(String.valueOf(StringGenAlgApplication.populationSize));
+        getMutRate.setText(StringGenAlgApplication.mutationRate * 100 + "%");
         getGen.setText("0");
         getBestFit.setText("0");
         getMatch.setText(" ");
@@ -246,18 +244,14 @@ public class StringGenAlgController {
         exportLabel.setText("CSV saved to: " + csvFileName);
     }
 
+    // When settings button is clicked, go to settings scene
     @FXML
     protected void onClickSettings(ActionEvent event) {
         // REMEMBER IF YOU WANT TO CREATE A NEW SCENE YOU MUST DECLARE THAT IN THE FXML FILE
         // ex: settings.fxml -> SettingsController.java
         // THIS WORKS NOW
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/stringgenalg/settings.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Settings");
-            stage.setScene(new Scene(root, 390, 500));
-            stage.show();
+            mainApp.showSettingsPage();
         } catch (IOException e) {
             e.printStackTrace();
         }

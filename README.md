@@ -33,4 +33,8 @@ It continues until one string perfectly matches the target input.
 ## ⚙️ Future features:
 
 - Working menu for options and where to save files
-- User input for both population size and mutation rate
+
+## 💎 New Features:
+
+- Added a button for settings where user can modify population size and mutation rate
+- Improved UI

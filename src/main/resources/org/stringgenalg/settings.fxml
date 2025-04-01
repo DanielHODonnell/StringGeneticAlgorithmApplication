@@ -7,10 +7,9 @@
 <!-- REMEMBER TO ADD THE NEW JAVA CLASS BEFORE TRYING TO CALL IT WITH A BUTTON -->
 <!-- Example seen in fx:controller="org.stringgenalg.SettingsController" -->
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.stringgenalg.SettingsController">
    <children>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="375.0">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="450.0">
          <children>
             <HBox alignment="CENTER">
                <children>
@@ -21,7 +20,7 @@
                   </Label>
                </children>
             </HBox>
-            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -43,6 +42,11 @@
                         <TextField fx:id="inputMut" />
                      </children>
                   </HBox>
+                  <Label fx:id="savedSettings">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
             <HBox alignment="CENTER" prefHeight="31.0" prefWidth="334.0">
