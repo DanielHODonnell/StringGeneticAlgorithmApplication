@@ -1,9 +1,14 @@
 package org.stringgenalg;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
+import javafx.stage.Stage;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,13 +18,10 @@ import java.util.Random;
 public class StringGenAlgController {
     private final List<String> csvData = new ArrayList<>();
     private String csvFileName;
-    private int lastGeneration = 0;
-    private int lastBestFitness = 0;
-    private String lastBestIndividual = "";
     // Define Variables/Constants as well as instantiate random module
     private String target;
-    private static final int POPULATION_SIZE = 250;
-    private static final double MUTATION_RATE = 0.01;
+    public static final int POPULATION_SIZE = 250;
+    public static final double MUTATION_RATE = 0.01;
     private static final Random random = new Random();
     private volatile boolean isRunning = false;
     // Labels
@@ -30,6 +32,8 @@ public class StringGenAlgController {
     @FXML private Label getBestFit;
     @FXML private Label getMatch;
     @FXML private Label exportLabel;
+
+
 
     // Method to run algorithm
     private void runGeneticAlgorithm() {
@@ -43,7 +47,7 @@ public class StringGenAlgController {
         String bestIndividual = "";
         int bestFitness = 0;
 
-        while (!found && isRunning) {
+        while (isRunning) {
             int[] fitness = new int[POPULATION_SIZE];
             int maxFitness = 0;
             String currentBest = "";
@@ -180,9 +184,6 @@ public class StringGenAlgController {
         csvData.add(line);
 
         // Also update last-known data for potential future use
-        lastGeneration = generation;
-        lastBestFitness = bestFitness;
-        lastBestIndividual = bestIndividual;
     }
 
     // Buttons
@@ -198,7 +199,7 @@ public class StringGenAlgController {
         isRunning = true;
 
         getPopSize.setText(String.valueOf(POPULATION_SIZE));
-        getMutRate.setText(String.valueOf(MUTATION_RATE * 100 + "%"));
+        getMutRate.setText(MUTATION_RATE * 100 + "%");
         getGen.setText("0");
         getBestFit.setText("0");
         getMatch.setText(" ");
@@ -217,6 +218,9 @@ public class StringGenAlgController {
         getPopSize.setText("");
         getMutRate.setText("");
     }
+
+    @FXML
+    private Button onClickSettings;
 
     @FXML
     protected void onClickCSV() {
@@ -240,5 +244,22 @@ public class StringGenAlgController {
             }
         }).start();
         exportLabel.setText("CSV saved to: " + csvFileName);
+    }
+
+    @FXML
+    protected void onClickSettings(ActionEvent event) {
+        // REMEMBER IF YOU WANT TO CREATE A NEW SCENE YOU MUST DECLARE THAT IN THE FXML FILE
+        // ex: settings.fxml -> SettingsController.java
+        // THIS WORKS NOW
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/stringgenalg/settings.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Settings");
+            stage.setScene(new Scene(root, 390, 500));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
