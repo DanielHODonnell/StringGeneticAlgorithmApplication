@@ -32,9 +32,10 @@ It continues until one string perfectly matches the target input.
 
 ## ⚙️ Future features:
 
-- Working menu for options and where to save files
+- N/a
 
 ## 💎 New Features:
 
 - Added a button for settings where user can modify population size and mutation rate
 - Improved UI
+- FileChooser to choose where the CSV file is saved

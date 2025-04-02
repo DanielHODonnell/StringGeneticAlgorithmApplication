@@ -1,10 +1,14 @@
 package org.stringgenalg;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -229,19 +233,43 @@ public class StringGenAlgController {
             return;
         }
 
-        csvFileName = "genetic_algorithm_" + System.currentTimeMillis() + ".csv";
+        // Create the file chooser
+        FileChooser fileChooser = new FileChooser();
 
-        new Thread(() -> {
-            try (FileWriter writer = new FileWriter(csvFileName)) {
-                for (String line : csvData) {
-                    writer.write(line + System.lineSeparator());
+        // Initial file name
+        fileChooser.setInitialFileName("genetic_algorithm_" + System.currentTimeMillis() + ".csv");
+
+        // Set extension filter if needed
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
+
+        // Show save file dialog
+        File file = fileChooser.showSaveDialog(exportLabel.getScene().getWindow());
+
+        if (file != null) {
+            // Use the selected file path
+            csvFileName = file.getAbsolutePath();
+
+            new Thread(() -> {
+                try (FileWriter writer = new FileWriter(csvFileName)) {
+                    for (String line : csvData) {
+                        writer.write(line + System.lineSeparator());
+                    }
+                    System.out.println("CSV saved to: " + csvFileName);
+
+                    // Update UI on JavaFX Application Thread
+                    Platform.runLater(() ->
+                            exportLabel.setText("CSV saved to: " + csvFileName)
+                    );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Platform.runLater(() ->
+                            exportLabel.setText("Error saving file: " + e.getMessage())
+                    );
                 }
-                System.out.println("CSV saved to: " + csvFileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-        exportLabel.setText("CSV saved to: " + csvFileName);
+            }).start();
+        }
     }
 
     // When settings button is clicked, go to settings scene
