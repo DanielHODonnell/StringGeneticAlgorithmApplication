@@ -1,6 +1,8 @@
 package org.stringgenalg;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.io.IOException;
@@ -33,8 +35,15 @@ public class SettingsController {
             savedSettings.setText("Saved settings.");
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input format");
-            // Show error to user
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Incorrect format!");
+            alert.setContentText("Please enter the correct format.");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("pressed 2.");
+                }
+            });
         }
     }
 

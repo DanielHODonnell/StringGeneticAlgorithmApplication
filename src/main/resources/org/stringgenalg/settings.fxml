@@ -7,7 +7,7 @@
 <!-- REMEMBER TO ADD THE NEW JAVA CLASS BEFORE TRYING TO CALL IT WITH A BUTTON -->
 <!-- Example seen in fx:controller="org.stringgenalg.SettingsController" -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.stringgenalg.SettingsController">
+<AnchorPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.stringgenalg.SettingsController">
    <children>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="450.0">
          <children>

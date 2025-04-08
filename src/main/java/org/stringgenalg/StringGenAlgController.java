@@ -3,9 +3,7 @@ package org.stringgenalg;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -194,7 +192,15 @@ public class StringGenAlgController {
         target = inputString.getText();
 
         if (target == null || target.trim().isEmpty()) {
-            System.out.println("Target string is empty!");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("User string box is empty!");
+            alert.setContentText("Please enter a string.");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("pressed.");
+                }
+            });
             return;
         }
 

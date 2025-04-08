@@ -23,19 +23,21 @@ The program starts with a population of random strings and uses:
 
 It continues until one string perfectly matches the target input.
 
-## 🛠️ Technologies Used
+## 🛠️ Notable Resources Used
 
 - Java 11+
 - JavaFX
 - MVC architecture
 - CSV export with `FileWriter`
 
-## ⚙️ Future features:
+## ⚙️ Future Features:
 
-- N/a
+- Dark/Light mode options
 
 ## 💎 New Features:
 
 - Added a button for settings where user can modify population size and mutation rate
 - Improved UI
 - FileChooser to choose where the CSV file is saved
+- Added error messages whenever there is an invalid input
+- Different 
