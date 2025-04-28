@@ -16,13 +16,14 @@ import java.util.Random;
 public class StringGenAlgController {
     // Define Variables/Constants as well as instantiate random module
     private static StringGenAlgApplication mainApp;
-    private final List<String> csvData = new ArrayList<>();
+    final List<String> csvData = new ArrayList<>();
     private String csvFileName;
     private String target;
     private static final Random random = new Random();
-    private volatile boolean isRunning = false;
+    volatile boolean isRunning = false;
     // Labels
-    @FXML private TextField inputString;
+    @FXML
+    public TextField inputString;
     @FXML private Label getPopSize;
     @FXML private Label getMutRate;
     @FXML private Label getGen;
@@ -110,7 +111,7 @@ public class StringGenAlgController {
     }
 
     // Generate a random string of given length
-    private static String generateRandomString(int length) {
+    public static String generateRandomString(int length) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             // Generate random character between 32 (space) and 126 (~) in ASCII
@@ -121,7 +122,7 @@ public class StringGenAlgController {
     }
 
     // Calculate fitness (number of correct characters)
-    private int calculateFitness(String individual) {
+    int calculateFitness(String individual) {
         int fitness = 0;
         for (int i = 0; i < individual.length(); i++) {
             if (individual.charAt(i) == target.charAt(i)) {
@@ -132,7 +133,7 @@ public class StringGenAlgController {
     }
 
     // Select a parent based on fitness (roulette wheel selection)
-    private static String selectParent(String[] population, int[] fitness) {
+    static String selectParent(String[] population, int[] fitness) {
         // Calculate total fitness
         int totalFitness = 0;
         for (int f : fitness) {
@@ -156,13 +157,13 @@ public class StringGenAlgController {
     }
 
     // Single-point crossover
-    private static String crossover(String parent1, String parent2) {
+    static String crossover(String parent1, String parent2) {
         int crossoverPoint = random.nextInt(parent1.length());
         return parent1.substring(0, crossoverPoint) + parent2.substring(crossoverPoint);
     }
 
     // Random mutation of characters
-    private static String mutate(String individual) {
+    static String mutate(String individual) {
         StringBuilder sb = new StringBuilder(individual);
         for (int i = 0; i < individual.length(); i++) {
             if (random.nextDouble() < StringGenAlgApplication.mutationRate) {
@@ -173,7 +174,7 @@ public class StringGenAlgController {
     }
 
     // Writes data into a CSV file
-    private void writeToCSV(int generation, int bestFitness, String bestIndividual) {
+    void writeToCSV(int generation, int bestFitness, String bestIndividual) {
         if (generation == 0) {
             csvData.clear(); // clear any old runs
             csvData.add("Generation,Best Fitness,Best Individual");
